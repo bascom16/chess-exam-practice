@@ -13,20 +13,23 @@ public class BishopMoveCalculator implements PieceMoveCalculator {
         int myCol = position.getColumn();
         // Check ++, +-. -+, --;
         int[] direction = {1, -1};
-        for (int horizontal : direction) {
-            for (int vertical : direction) {
-                int i = horizontal;
-                int j = vertical;
+        for (int row_shift : direction) {
+            for (int col_shift : direction) {
+                int i = row_shift;
+                int j = col_shift;
                 while (true) {
                     ChessPosition endPosition = new ChessPosition(myRow + i, myCol + j);
                     ChessMove newMove = new ChessMove(position, endPosition, null);
                     if (checkMove(board, newMove)) {
                         moveList.add(newMove);
+                        if (isOccupied(board, endPosition)) {
+                            break;
+                        }
                     } else {
                         break;
                     }
-                    i += horizontal;
-                    j += vertical;
+                    i += row_shift;
+                    j += col_shift;
                 }
 
             }

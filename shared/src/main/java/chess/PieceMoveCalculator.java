@@ -18,11 +18,14 @@ public interface PieceMoveCalculator {
             return false;
         }
         // Check if space is occupied
-        ChessPiece occupyingPiece = board.getPiece(move.getEndPosition());
-        if (occupyingPiece == null) {
+        if (!isOccupied(board, endPosition)) {
             return true;
+        } else {
+            return board.getPiece(endPosition).getTeamColor() != board.getPiece(move.getStartPosition()).getTeamColor();
         }
-        ChessGame.TeamColor myColor = occupyingPiece.getTeamColor();
-        return board.getPiece(endPosition).getTeamColor() != myColor;
+    }
+
+    default boolean isOccupied(ChessBoard board, ChessPosition position) {
+        return board.getPiece(position) != null;
     }
 }

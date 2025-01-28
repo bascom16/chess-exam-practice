@@ -12,29 +12,35 @@ public class RookMoveCalculator implements PieceMoveCalculator {
         int myRow = position.getRow();
         int myCol = position.getColumn();
         for (int i : direction) {
-            int steps = myCol;
+            int shift = i;
             while (true) {
-                ChessPosition endPosition = new ChessPosition(myRow, steps);
+                ChessPosition endPosition = new ChessPosition(myRow, myCol + shift);
                 ChessMove nextMove = new ChessMove(position, endPosition, null);
                 if (checkMove(board, nextMove)) {
                     moveList.add(nextMove);
+                    if (isOccupied(board, endPosition)) {
+                        break;
+                    }
                 } else {
                     break;
                 }
-                steps += i;
+                shift += i;
             }
         }
         for (int j : direction) {
-            int steps = myRow;
+            int shift = j;
             while (true) {
-                ChessPosition endPosition = new ChessPosition(steps, myCol);
+                ChessPosition endPosition = new ChessPosition(myRow + shift, myCol);
                 ChessMove nextMove = new ChessMove(position, endPosition, null);
                 if (checkMove(board, nextMove)) {
                     moveList.add(nextMove);
+                    if (isOccupied(board, endPosition)) {
+                        break;
+                    }
                 } else {
                     break;
                 }
-                steps += j;
+                shift += j;
             }
         }
         return moveList;
